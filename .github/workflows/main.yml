@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для Ангелины</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Убираем все скроллы */
+        }
+        
+        body {
+            background: linear-gradient(135deg, #ffafcc 0%, #ffc8dd 50%, #ffafcc 100%);
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+        }
+        
+        .hearts-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: #ff0a54;
+            opacity: 0.9;
+            animation: float 15s linear infinite;
+            text-shadow: 
+                0 0 2px white,
+                0 0 4px white,
+                0 0 6px rgba(255, 255, 255, 0.8); /* Белая обводка */
+            transition: opacity 0.5s ease;
+        }
+        
+        .heart::before {
+            content: "❤";
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(1);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg) scale(1);
+                opacity: 0.9;
+            }
+        }
+        
+        .message-container {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .message-box {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 18px;
+            padding: 25px 20px;
+            box-shadow: 0 15px 35px rgba(255, 10, 84, 0.2),
+                        0 5px 15px rgba(255, 10, 84, 0.1);
+            max-width: 500px;
+            width: 95%;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            animation: pulse 3s infinite alternate;
+            max-height: 95vh;
+            overflow: hidden; /* Убираем прокрутку внутри окна */
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 10px 25px rgba(255, 10, 84, 0.2);
+            }
+            100% {
+                transform: scale(1.01);
+                box-shadow: 0 12px 28px rgba(255, 10, 84, 0.25);
+            }
+        }
+        
+        h1 {
+            color: #ff0a54;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+            line-height: 1.2;
+        }
+        
+        .message-text {
+            font-size: 0.95em;
+            line-height: 1.4;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .message-text p {
+            margin-bottom: 10px;
+        }
+        
+        .signature {
+            font-size: 1em;
+            color: #ff0a54;
+            font-weight: bold;
+            margin-top: 15px;
+            font-style: italic;
+            padding-top: 12px;
+            border-top: 1px dashed #ff0a54;
+        }
+        
+        .hearts-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            font-size: 1.4em;
+            animation: heartbeat 1.5s infinite;
+        }
+        
+        /* Красные сердечки с белой обводкой */
+        .hearts-row span {
+            color: #ff0a54;
+            text-shadow: 
+                0 0 2px white,
+                0 0 4px white,
+                0 0 6px rgba(255, 255, 255, 0.8);
+        }
+        
+        @keyframes heartbeat {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+        }
+        
+        .heart-btn {
+            background: linear-gradient(45deg, #ff0a54, #ff477e);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-size: 0.9em;
+            cursor: pointer;
+            margin: 15px 0 10px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 10, 84, 0.3);
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+        
+        .heart-btn:hover {
+            background: linear-gradient(45deg, #e6094a, #ff3366);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 10, 84, 0.4);
+        }
+        
+        .heart-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 3px 8px rgba(255, 10, 84, 0.4);
+        }
+        
+        .instructions {
+            margin-top: 8px;
+            color: #666;
+            font-size: 0.8em;
+            opacity: 0.9;
+            font-style: italic;
+            line-height: 1.3;
+        }
+        
+        .heart-counter {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 6px 10px;
+            border-radius: 50px;
+            font-size: 0.8em;
+            color: #ff0a54;
+            font-weight: bold;
+            z-index: 100;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Для очень маленьких экранов */
+        @media (max-height: 600px) {
+            .message-box {
+                padding: 15px;
+                max-height: 90vh;
+            }
+            
+            h1 {
+                font-size: 1.5em;
+                margin-bottom: 10px;
+            }
+            
+            .message-text {
+                font-size: 0.85em;
+                margin-bottom: 10px;
+            }
+            
+            .message-text p {
+                margin-bottom: 8px;
+            }
+            
+            .signature {
+                font-size: 0.9em;
+                margin-top: 10px;
+                padding-top: 10px;
+            }
+            
+            .heart-btn {
+                padding: 8px 20px;
+                font-size: 0.85em;
+                margin: 10px 0 8px 0;
+            }
+            
+            .hearts-row {
+                margin: 10px 0;
+                font-size: 1.2em;
+                gap: 8px;
+            }
+            
+            .instructions {
+                font-size: 0.75em;
+                margin-top: 5px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .message-box {
+                padding: 20px 15px;
+                width: 98%;
+            }
+            
+            h1 {
+                font-size: 1.6em;
+            }
+            
+            .message-text {
+                font-size: 0.9em;
+            }
+            
+            .heart-btn {
+                padding: 10px 20px;
+                font-size: 0.85em;
+            }
+            
+            .heart-counter {
+                top: 8px;
+                right: 8px;
+                padding: 5px 8px;
+                font-size: 0.75em;
+            }
+        }
+        
+        /* Для горизонтальной ориентации на мобильных */
+        @media (max-height: 450px) {
+            .message-box {
+                padding: 12px;
+                max-height: 95vh;
+            }
+            
+            h1 {
+                font-size: 1.3em;
+                margin-bottom: 8px;
+            }
+            
+            .message-text {
+                font-size: 0.8em;
+                margin-bottom: 8px;
+            }
+            
+            .message-text p {
+                margin-bottom: 6px;
+            }
+            
+            .signature {
+                font-size: 0.8em;
+                margin-top: 8px;
+                padding-top: 8px;
+            }
+            
+            .heart-btn {
+                padding: 6px 15px;
+                font-size: 0.8em;
+                margin: 8px 0 6px 0;
+            }
+            
+            .hearts-row {
+                margin: 8px 0;
+                font-size: 1em;
+                gap: 6px;
+            }
+            
+            .instructions {
+                font-size: 0.7em;
+                margin-top: 4px;
+            }
+        }
+        
+        /* Для очень широких экранов */
+        @media (min-width: 1200px) and (min-height: 700px) {
+            .message-box {
+                max-width: 550px;
+                padding: 30px 25px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .message-text {
+                font-size: 1.05em;
+            }
+            
+            .signature {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-counter" id="heartCounter">Сердечек: 0</div>
+    
+    <div class="hearts-container" id="hearts"></div>
+    
+    <div class="message-container">
+        <div class="message-box">
+            <h1>Моей Любимой Ангелине</h1>
+            
+            <div class="message-text">
+                <p>Каждый день с тобой — это как маленькое чудо.</p>
+                <p>Я так люблю твои милые глаза</p>
+                <p>Твои глаза целая вселенная, в которую хочется смотреть вечно.</p>
+                <p>Ты даришь мне тепло, заботу и бесконечное счастье.</p>
+                <p>Я благодарен судьбе за каждый момент, проведённый с тобой.</p>
+                <p>Ты — самое прекрасное, что есть в моей жизни.</p>
+                <p>Спасибо тебе, за то что ты есть у меня, Ангелина!</p>
+            </div>
+            
+            <div class="hearts-row">
+                <span>❤</span>
+                <span>❤</span>
+                <span>❤</span>
+                <span>❤</span>
+                <span>❤</span>
+            </div>
+            
+            <button class="heart-btn" id="heartBtn">Добавить сердечки</button>
+            <p class="instructions">Пожмакай на кнопочку или на фон, сердешек станет побольше ;)</p>
+            
+            <p class="signature">Моей официантке в моем любимом баре от Саши</p>
+        </div>
+    </div>
+
+    <script>
+        const heartsContainer = document.getElementById('hearts');
+        const heartBtn = document.getElementById('heartBtn');
+        const heartCounter = document.getElementById('heartCounter');
+        let heartCount = 0;
+        
+        const hearts = [];
+        
+        function createHeart(x, y, fromButton = false) {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            
+            const size = Math.random() * 20 + 15;
+            heart.style.fontSize = `${size}px`;
+            
+            if (fromButton) {
+                x = Math.random() * window.innerWidth;
+                y = Math.random() * window.innerHeight;
+            }
+            
+            heart.style.left = `${x}px`;
+            heart.style.top = `${y}px`;
+            
+            const delay = Math.random() * 2;
+            const duration = Math.random() * 5 + 10;
+            heart.style.animationDelay = `${delay}s`;
+            heart.style.animationDuration = `${duration}s`;
+            
+            const hue = Math.floor(Math.random() * 20 + 340);
+            const saturation = Math.floor(Math.random() * 30 + 70);
+            const lightness = Math.floor(Math.random() * 20 + 40);
+            heart.style.color = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+            heart.style.textShadow = `0 0 2px white, 0 0 4px white, 0 0 6px rgba(255, 255, 255, 0.8)`;
+            
+            const rotation = Math.random() * 360;
+            heart.style.transform = `rotate(${rotation}deg)`;
+            
+            heartsContainer.appendChild(heart);
+            hearts.push(heart);
+            
+            heartCount++;
+            heartCounter.textContent = `Сердечек: ${heartCount}`;
+        }
+        
+        function createInitialHearts() {
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    createHeart(x, y);
+                }, i * 100);
+            }
+        }
+        
+        heartBtn.addEventListener('click', () => {
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    createHeart(0, 0, true);
+                }, i * 50);
+            }
+            
+            heartBtn.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                heartBtn.style.transform = '';
+            }, 150);
+        });
+        
+        document.addEventListener('click', (e) => {
+            if (e.target !== heartBtn && !heartBtn.contains(e.target)) {
+                createHeart(e.clientX, e.clientY);
+                
+                for (let i = 0; i < 2; i++) {
+                    setTimeout(() => {
+                        const x = e.clientX + (Math.random() * 80 - 40);
+                        const y = e.clientY + (Math.random() * 80 - 40);
+                        createHeart(x, y);
+                    }, i * 100);
+                }
+            }
+        });
+        
+        let mouseMoveTimeout;
+        document.addEventListener('mousemove', (e) => {
+            clearTimeout(mouseMoveTimeout);
+            
+            mouseMoveTimeout = setTimeout(() => {
+                if (Math.random() > 0.8) {
+                    createHeart(e.clientX, e.clientY);
+                }
+            }, 100);
+        });
+        
+        createInitialHearts();
+        
+        window.addEventListener('resize', () => {
+            hearts.forEach(heart => {
+                const rect = heart.getBoundingClientRect();
+                if (rect.right < 0 || rect.left > window.innerWidth || 
+                    rect.bottom < 0 || rect.top > window.innerHeight) {
+                    const x = Math.random() * window.innerWidth;
+                    const y = Math.random() * window.innerHeight;
+                    heart.style.left = `${x}px`;
+                    heart.style.top = `${y}px`;
+                }
+            });
+        });
+        
+        function moveHeartsRandomly() {
+            hearts.forEach(heart => {
+                if (Math.random() > 0.98) {
+                    const currentX = parseFloat(heart.style.left);
+                    const currentY = parseFloat(heart.style.top);
+                    
+                    const newX = currentX + (Math.random() * 30 - 15);
+                    const newY = currentY + (Math.random() * 30 - 15);
+                    
+                    if (newX > 0 && newX < window.innerWidth && 
+                        newY > 0 && newY < window.innerHeight) {
+                        heart.style.left = `${newX}px`;
+                        heart.style.top = `${newY}px`;
+                    }
+                }
+            });
+            
+            requestAnimationFrame(moveHeartsRandomly);
+        }
+        
+        moveHeartsRandomly();
+    </script>
+</body>
+</html>
